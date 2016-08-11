@@ -19,6 +19,7 @@ app.config.from_object(configs[env])
 def index():
     return 'Hello, NASA and the World Bank.'
 
+@app.route('/questions')
 @app.route('/questions/<int:num>')
 def question(num):
     questions = {
@@ -28,7 +29,14 @@ def question(num):
         4: 'Q: What countries are the same from both years?',
         5: 'Q: Can you infer anything from this data? Why or why not?',
     }
-    return questions[num]
+    if num:
+        return questions[num]
+    else:
+        return questions
+
+@app.route('/meteorite-landings/<int:year>')
+def meterorite_landings(year):
+    return get_countries_with_meteorite_landings_in(year)
 #----------------------------------->>>
 
 #-- CLIENTS ------------------------>>>
