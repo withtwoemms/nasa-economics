@@ -68,7 +68,7 @@ def get_journal_article_indicator_data_for(country_name, year):
     return requests.get(base_url + path).json()
 def get_journal_article_indicator_data_for_multiple(country_names, year):
     result = []
-    for country in country_names:
+    for country in set(country_names):
         resp = get_journal_article_indicator_data_for(country, year)
         if not first(resp).get('message'):
             num_articles = resp[-1][0].get('value')
