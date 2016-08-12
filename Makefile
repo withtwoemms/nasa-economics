@@ -20,6 +20,11 @@ test:
 dev:
 	$(eval export FLASK_APP_ENV=dev)
 	@echo "CURRENT_ENV -->" ${FLASK_APP_ENV}
+	$(PYTHON)
+
+dev-server:
+	$(eval export FLASK_APP_ENV=dev)
+	@echo "CURRENT_ENV -->" ${FLASK_APP_ENV}
 	$(PYTHON) ${FLASK_APP}
 
 .PHONY: all test
