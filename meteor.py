@@ -7,6 +7,7 @@ from core import get_countries_with_meteorite_landings_in
 from core import get_journal_article_indicator_data_for_multiple
 from core import questions
 
+
 app = Flask(__name__)
 
 #-- CONFIG ------------------------->>>
@@ -24,9 +25,9 @@ def index():
 def get_question(num):
     return questions[num] if num else json.dumps(questions)
 
-@app.route('/meteorite-landings/<int:year>')
+@app.route('/countries-with-meteorite-landings-in/<int:year>')
 def meterorite_landings(year):
-    return get_countries_with_meteorite_landings_in(year)
+    return json.dumps(get_countries_with_meteorite_landings_in(year))
 #----------------------------------->>>
 
 
