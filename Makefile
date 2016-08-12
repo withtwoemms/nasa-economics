@@ -4,6 +4,9 @@ TEST_FILE := meteor_test.py
 
 
 $(eval export FLASK_APP=$(APP_FILE))
+$(foreach envvar, \
+     $(shell cat $(CURDIR)/.env), \
+     $(eval export $(envvar)))
 
 all: 
 	@echo "FLASK APP -->" ${FLASK_APP}
