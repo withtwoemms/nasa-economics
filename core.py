@@ -23,8 +23,11 @@ def get_meteorite_landing_coordinates_in(year):
     coords = [item.get('geolocation', {}).get('coordinates', None) for item in result]
     return [pair for pair in coords if pair not in [[0,0], None]]
 
+def format_coordinate_pair(pair):
+    return ','.join(map(str, pair))
+
 def format_coordinate_pairs(pairs):
-    return [','.join(str(x) for x in pair) for pair in pairs]
+    return [format_coordinate_pair(pair) for pair in pairs]
 
 def get_country_data_for(formatted_coordinate_pairs):
     maps_api_url = 'http://maps.googleapis.com/maps/api/geocode/json'
