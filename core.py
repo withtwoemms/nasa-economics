@@ -30,6 +30,9 @@ def format_coordinate_pair(pair):
     return ','.join(map(str, pair))
 
 def format_coordinate_pairs(pairs):
+    '''
+    batch version of format_coordinate_pair
+    '''
     return [format_coordinate_pair(pair) for pair in pairs]
 
 def get_country_data_for(formatted_coordinate_pairs):
