@@ -28,6 +28,11 @@ def get_question(num):
 @app.route('/countries-with-meteorite-landings-in/<int:year>')
 def meterorite_landings(year):
     return json.dumps(get_countries_with_meteorite_landings_in(year))
+
+@app.route('/countries-with-meteorites-and-articles-in/<int:year>')
+def countries_with_meteorites_and_articles_in(year):
+    countries = get_countries_with_meteorite_landings_in(year)
+    return json.dumps(get_journal_article_indicator_data_for_multiple(countries, year))
 #----------------------------------->>>
 
 

@@ -19,6 +19,10 @@ questions = {
 }
 
 def get_meteorite_landing_coordinates_in(year):
+    '''
+    uses the Socrata client to get an array of arrays (e.g. [[32.41275, 20.74575], ...])
+    where each is the coordinates of a meteorite landing in a given year
+    '''
     result = client.get('y77d-th95', where="year='{}'".format(year))
     coords = [item.get('geolocation', {}).get('coordinates', None) for item in result]
     return [pair for pair in coords if pair not in [[0,0], None]]
