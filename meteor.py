@@ -1,6 +1,5 @@
 import json
 import os
-import requests
 
 from flask import Flask
 from settings import configs

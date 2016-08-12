@@ -1,5 +1,8 @@
+import requests
+
 from first import first
 from sodapy import Socrata
+
 
 questions = {
     1: 'Q: In 2008, what are the top 5 countries with documented meteor strikes and published scientific technical journals?',
