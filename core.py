@@ -1,8 +1,14 @@
+import os
 import requests
 
 from first import first
 from sodapy import Socrata
 
+
+#-- CONFIG ------------------------->>>
+nasa_app_token = os.environ.get('NASA_APP_TOKEN', None)
+client = Socrata('data.nasa.gov', nasa_app_token)
+#----------------------------------->>>
 
 questions = {
     1: 'Q: In 2008, what are the top 5 countries with documented meteor strikes and published scientific technical journals?',
@@ -11,8 +17,6 @@ questions = {
     4: 'Q: What countries are the same from both years?',
     5: 'Q: Can you infer anything from this data? Why or why not?',
 }
-
-client = Socrata('data.nasa.gov', None)
 
 def get_meteorite_landing_coordinates_in(year):
     result = client.get('y77d-th95', where="year='{}'".format(year))
