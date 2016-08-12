@@ -24,6 +24,9 @@ def get_meteorite_landing_coordinates_in(year):
     return [pair for pair in coords if pair not in [[0,0], None]]
 
 def format_coordinate_pair(pair):
+    '''
+    should turn an array of floats to a string (e.g. [32.41275, 20.74575] --> '32.41275,20.74575')
+    '''
     return ','.join(map(str, pair))
 
 def format_coordinate_pairs(pairs):
