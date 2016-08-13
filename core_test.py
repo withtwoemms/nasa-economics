@@ -19,11 +19,13 @@ class CoreTests(unittest.TestCase):
             nasa_datum['geolocation']['coordinates'] = coord
             self.nasa_data.append(nasa_datum)
 
+#-- PRIVATE ------------------------>>>
     def _stub_response_with(self, stub):
         mock_resp = mock.Mock()
         mock_resp.json.return_value = stub
         mock_resp.status_code = 200
         return mock_resp
+#----------------------------------->>>
 
     def test_format_coordinate_pair(self):
         self.assertEqual(
