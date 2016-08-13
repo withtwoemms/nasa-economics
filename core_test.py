@@ -9,11 +9,11 @@ from core import *
 class CoreTests(unittest.TestCase):
 
     def setUp(self):
-        nasa_datum_archetype = core_mock_data.get('nasa_datum_archetype')
         self.googlemaps_datum_archetype = core_mock_data.get('googlemaps_datum_archetype')
         self.test_coordinates = core_mock_data.get('coordinates')[0:10]
         self.formatted_coordinate = [','.join(map(str,coord)) for coord in self.test_coordinates[:1]]
         self.nasa_data = []
+        nasa_datum_archetype = core_mock_data.get('nasa_datum_archetype')
         for coord in self.test_coordinates:
             nasa_datum = deepcopy(nasa_datum_archetype)
             nasa_datum['geolocation']['coordinates'] = coord
@@ -42,6 +42,19 @@ class CoreTests(unittest.TestCase):
         self.assertCountEqual(
             get_country_data_for(self.formatted_coordinate)[0][0].keys(),
             ['place_id', 'geometry', 'formatted_address', 'address_components', 'types']
+        )
+
+    @mock.patch('core.requests.get')
+    def test_get_country_names_from(self, mock_get):
+        mock_resp = mock.Mock()
+        mock_resp.json.return_value = self.googlemaps_datum_archetype
+        mock_resp.status_code = 200
+        mock_get.return_value = mock_resp
+        country_datum = get_country_data_for(self.formatted_coordinate)
+        print(country_datum)
+        self.assertEqual(
+            get_country_names_from(country_datum),
+            ['Ukraine']
         )
 
 

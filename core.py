@@ -53,7 +53,11 @@ def get_country_data_for(formatted_coordinate_pairs):
     return [r.get('results') for r in responses if r.get('status') == 'OK']
 
 def get_country_names_from(country_data):
-    return [next((first(item.get('address_components', {})).get('long_name') for item in r if 'country' in item.get('types'))) for r in country_data]
+    '''
+    !!! NEEDS TO BE REFACTORED
+    parses the array of results from the googlemaps api to return a list of countries (e.g. ['Libya', 'Ukraine', ...])
+    '''
+    return [next(first(item.get('address_components', {})).get('long_name') for item in r if 'country' in item.get('types')) for r in country_data]
 
 def get_countries_with_meteorite_landings_in(year):
     coords = format_coordinate_pairs(get_meteorite_landing_coordinates_in(year))
