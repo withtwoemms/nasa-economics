@@ -40,6 +40,9 @@ def format_coordinate_pairs(pairs):
     return [format_coordinate_pair(pair) for pair in pairs]
 
 def get_country_data_for(formatted_coordinate_pairs):
+    '''
+    make call to googlemaps api using formatted coordinates and return array of array of dicts
+    '''
     maps_api_url = 'http://maps.googleapis.com/maps/api/geocode/json'
     location_urls = [maps_api_url + "?latlng=" + pair for pair in formatted_coordinate_pairs]
     responses = []
@@ -48,6 +51,7 @@ def get_country_data_for(formatted_coordinate_pairs):
         if resp.status_code == 200:
             responses.append(resp.json())
     return [r.get('results') for r in responses if r.get('status') == 'OK']
+
 def get_country_names_from(country_data):
     return [next((first(item.get('address_components', {})).get('long_name') for item in r if 'country' in item.get('types'))) for r in country_data]
 
