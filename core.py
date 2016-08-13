@@ -60,6 +60,9 @@ def get_country_names_from(country_data):
     return [next(first(item.get('address_components', {})).get('long_name') for item in r if 'country' in item.get('types')) for r in country_data]
 
 def get_countries_with_meteorite_landings_in(year):
+    '''
+    main interface for dealing with nasa meteorite api; returns array of cities that had landings in a given year
+    '''
     coords = format_coordinate_pairs(get_meteorite_landing_coordinates_in(year))
     location_data = get_country_data_for(coords)
     return get_country_names_from(location_data)
