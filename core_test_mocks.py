@@ -171,5 +171,28 @@ core_mock_data = {
                 u'latitude': "32.8578"
             }
         ]
+    ],
+    u'worldbank_article_datum_archetype': [
+        {
+            u'page': 1,
+            u'pages': 1,
+            u'per_page': "1000",
+            u'total': 1
+        },
+        [
+            {
+                u'indicator': {
+                    u'id': "IP.JRN.ARTC.SC",
+                    u'value': "Scientific and technical journal articles"
+                },
+                u'country': {
+                    u'id': "LY",
+                    u'value': "Libya"
+                },
+                u'value': "139.7",
+                u'decimal': "0",
+                u'date': "2008"
+            }
+        ]
     ]
 }

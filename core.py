@@ -82,6 +82,9 @@ def get_country_id(country_name):
         return None
 
 def get_journal_article_indicator_data_for(country_name, year):
+    '''
+    calls out to the worldbank api to get a list whose last item is a dict with relevant info for country passed
+    '''
     cid = get_country_id(country_name)
     base_url = 'http://api.worldbank.org/countries/{}'.format(cid)
     query = '?per_page=1000&format=json&date={}'.format(year)

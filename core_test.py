@@ -9,6 +9,7 @@ from core import *
 class CoreTests(unittest.TestCase):
 
     def setUp(self):
+        self.worldbank_article_datum_archetype = core_mock_data.get('worldbank_article_datum_archetype')
         self.worldbank_countries_datum_archetype = core_mock_data.get('worldbank_countries_datum_archetype')
         self.googlemaps_datum_archetype = core_mock_data.get('googlemaps_datum_archetype')
         self.test_coordinates = core_mock_data.get('coordinates')[0:10]
@@ -63,6 +64,14 @@ class CoreTests(unittest.TestCase):
     def test_get_country_id(self, mock_get):
         mock_get.return_value = self._stub_response_with(self.worldbank_countries_datum_archetype)
         self.assertEqual(get_country_id('Libya'), 'LBY')
+
+    @mock.patch('core.requests.get')
+    def test_get_journal_article_indicator_data_for(self, mock_get):
+        mock_get.return_value = self._stub_response_with(self.worldbank_article_datum_archetype)
+        self.assertCountEqual(
+            get_journal_article_indicator_data_for('Libya', 2008)[-1][0],
+            ['value', 'decimal', 'date', 'country', 'indicator']
+        )
 
 
 if __name__ == '__main__':
