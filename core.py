@@ -68,9 +68,18 @@ def get_countries_with_meteorite_landings_in(year):
     return get_country_names_from(location_data)
 
 def get_country_id(country_name):
+    '''
+    calls out to the worldbank api to get a list of dictionaries and returns the cid if the country dict is in the list
+    '''
     resp = requests.get('http://api.worldbank.org/countries/all/?per_page=1000&format=json')
     country_ids = [[item.get('name', None), item.get('id', None)] for item in resp.json()[-1]]
-    return next((item[-1].encode('utf-8') for item in country_ids if item[0] == country_name), None)
+    cid = next((item[-1].encode('utf-8') for item in country_ids if item[0] == country_name), None)
+    if isinstance(cid, str):
+        return cid
+    elif not isinstance(cid, str) and cid != None:
+        return cid.decode('utf-8')
+    else:
+        return None
 
 def get_journal_article_indicator_data_for(country_name, year):
     cid = get_country_id(country_name)
