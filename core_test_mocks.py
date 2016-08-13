@@ -137,5 +137,39 @@ core_mock_data = {
                 u'types': ["country","political"]
             }
         ],
-    }
+    },
+    u'worldbank_countries_datum_archetype': [
+        {
+            u'page': 1,
+            u'pages': 1,
+            u'per_page': "1000",
+            u'total': 304
+        },
+        [
+            {
+                u'id': "LBY",
+                u'iso2Code': "LY",
+                u'name': "Libya",
+                u'region': {
+                    u'id': "MEA",
+                    u'value': "Middle East & North Africa"
+                },
+                u'adminregion': {
+                    u'id': "MNA",
+                    u'value': "Middle East & North Africa (excluding high income)"
+                },
+                u'incomeLevel': {
+                    u'id': "UMC",
+                    u'value': "Upper middle income"
+                },
+                u'lendingType': {
+                    u'id': "IBD",
+                    u'value': "IBRD"
+                },
+                u'capitalCity': "Tripoli",
+                u'longitude': "13.1072",
+                u'latitude': "32.8578"
+            }
+        ]
+    ]
 }
