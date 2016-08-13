@@ -194,5 +194,6 @@ core_mock_data = {
                 u'date': "2008"
             }
         ]
-    ]
+    ],
+    u'worldbank_num_articles_datum_archetype': [{'country': u'Libya', 'num_articles': 139.7}]
 }
