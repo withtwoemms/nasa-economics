@@ -19,6 +19,12 @@ class CoreTests(unittest.TestCase):
             nasa_datum['geolocation']['coordinates'] = coord
             self.nasa_data.append(nasa_datum)
 
+    def _stub_response_with(self, stub):
+        mock_resp = mock.Mock()
+        mock_resp.json.return_value = stub
+        mock_resp.status_code = 200
+        return mock_resp
+
     def test_format_coordinate_pair(self):
         self.assertEqual(
             format_coordinate_pair(self.test_coordinates[0]),
@@ -35,10 +41,7 @@ class CoreTests(unittest.TestCase):
 
     @mock.patch('core.requests.get')
     def test_get_country_data_for(self, mock_get):
-        mock_resp = mock.Mock()
-        mock_resp.json.return_value = self.googlemaps_datum_archetype
-        mock_resp.status_code = 200
-        mock_get.return_value = mock_resp
+        mock_get.return_value = self._stub_response_with(self.googlemaps_datum_archetype)
         self.assertCountEqual(
             get_country_data_for(self.formatted_coordinate)[0][0].keys(),
             ['place_id', 'geometry', 'formatted_address', 'address_components', 'types']
@@ -46,15 +49,11 @@ class CoreTests(unittest.TestCase):
 
     @mock.patch('core.requests.get')
     def test_get_country_names_from(self, mock_get):
-        mock_resp = mock.Mock()
-        mock_resp.json.return_value = self.googlemaps_datum_archetype
-        mock_resp.status_code = 200
-        mock_get.return_value = mock_resp
+        mock_get.return_value = self._stub_response_with(self.googlemaps_datum_archetype)
         country_datum = get_country_data_for(self.formatted_coordinate)
-        print(country_datum)
         self.assertEqual(
             get_country_names_from(country_datum),
-            ['Ukraine']
+            ['Libya']
         )
 
 

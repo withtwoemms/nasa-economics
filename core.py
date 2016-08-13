@@ -54,8 +54,8 @@ def get_country_data_for(formatted_coordinate_pairs):
 
 def get_country_names_from(country_data):
     '''
-    !!! NEEDS TO BE REFACTORED
     parses the array of results from the googlemaps api to return a list of countries (e.g. ['Libya', 'Ukraine', ...])
+    TODO: refactor -- currently too complex
     '''
     return [next(first(item.get('address_components', {})).get('long_name') for item in r if 'country' in item.get('types')) for r in country_data]
 
