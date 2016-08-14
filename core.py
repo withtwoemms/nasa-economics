@@ -116,7 +116,12 @@ def get_journal_article_indicator_data_for(country_name, year):
     base_url = 'http://api.worldbank.org/countries/{}'.format(cid)
     query = '?per_page=1000&format=json&date={}'.format(year)
     path = '/indicators/IP.JRN.ARTC.SC{}'.format(query)
-    return requests.get(base_url + path).json()
+    if db.get(country_name):
+        resp = json.loads(db.get(country_name).decode('utf-8'))
+    else:
+        resp = requests.get(base_url + path).json()
+        db.set(country_name, json.dumps(resp))
+    return resp
 
 def get_journal_article_indicator_data_for_multiple(country_names, year):
     '''
