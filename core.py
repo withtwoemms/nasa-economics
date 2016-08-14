@@ -1,4 +1,6 @@
+import json
 import os
+import redis
 import requests
 
 from first import first
@@ -8,6 +10,11 @@ from sodapy import Socrata
 #-- CONFIG ------------------------->>>
 nasa_app_token = os.environ.get('NASA_APP_TOKEN', None)
 client = Socrata('data.nasa.gov', nasa_app_token)
+db = redis.StrictRedis(
+    host='localhost',
+    port='6379',
+    encoding='utf-8'
+)
 #----------------------------------->>>
 
 questions = {
@@ -23,7 +30,12 @@ def get_meteorite_landing_coordinates_in(year):
     uses the Socrata client to get an array of arrays (e.g. [[32.41275, 20.74575], ...])
     where each is the coordinates of a meteorite landing in a given year
     '''
-    result = client.get('y77d-th95', where="year='{}'".format(year))
+    if db.get('meteorite_landings_in'):
+        result = json.loads(db.get('meteorite_landings_in').decode('utf-8'))
+    else:
+        result = client.get('y77d-th95', where="year='{}'".format(year))
+        db.set('meteorite_landings_in', json.dumps(result))
+        db.expire('meteorite_landings_in', 600)
     coords = [item.get('geolocation', {}).get('coordinates', None) for item in result]
     return [pair for pair in coords if pair not in [[0,0], None]]
 
@@ -41,6 +53,7 @@ def format_coordinate_pairs(pairs):
 
 def get_country_data_for(formatted_coordinate_pairs):
     '''
+    TODO: cache
     make call to googlemaps api using formatted coordinates and return array of array of dicts
     '''
     maps_api_url = 'http://maps.googleapis.com/maps/api/geocode/json'
@@ -69,6 +82,7 @@ def get_countries_with_meteorite_landings_in(year):
 
 def get_country_id(country_name):
     '''
+    TODO: cache
     calls out to the worldbank api to get a list of dictionaries and returns the cid if the country dict is in the list
     '''
     resp = requests.get('http://api.worldbank.org/countries/all/?per_page=1000&format=json')
@@ -83,6 +97,7 @@ def get_country_id(country_name):
 
 def get_journal_article_indicator_data_for(country_name, year):
     '''
+    TODO: cache
     calls out to the worldbank api to get a list whose last item is a dict with relevant info for country passed
     '''
     cid = get_country_id(country_name)
