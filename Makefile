@@ -32,5 +32,12 @@ clean:
 	rm -rf $(VENV)
 	find . -iname '*.pyc' -exec rm {} \;
 
+venv: 
+	virtualenv -p python3 $(VENV)
+
+install: requirements.txt $(VENV)
+	pip install -r requirements.txt
+	
+
 .PHONY: all test
 
