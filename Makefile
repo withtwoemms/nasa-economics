@@ -1,6 +1,7 @@
 PYTHON := python3
 APP_FILE := meteor.py
 TEST_FILE := meteor_test.py
+VENV := $(CURDIR)/venv
 
 
 $(eval export FLASK_APP=$(APP_FILE))
@@ -26,6 +27,10 @@ dev-server:
 	$(eval export FLASK_APP_ENV=dev)
 	@echo "CURRENT_ENV -->" ${FLASK_APP_ENV}
 	$(PYTHON) ${FLASK_APP}
+
+clean:
+	rm -rf $(VENV)
+	find . -iname '*.pyc' -exec rm {} \;
 
 .PHONY: all test
 
