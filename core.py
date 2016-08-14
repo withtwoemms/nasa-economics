@@ -35,7 +35,7 @@ def get_meteorite_landing_coordinates_in(year):
     else:
         result = client.get('y77d-th95', where="year='{}'".format(year))
         db.set('meteorite_landings_in', json.dumps(result))
-        db.expire('meteorite_landings_in', 600)
+        db.expire('meteorite_landings_in', 600000)
     coords = [item.get('geolocation', {}).get('coordinates', None) for item in result]
     return [pair for pair in coords if pair not in [[0,0], None]]
 
@@ -53,22 +53,31 @@ def format_coordinate_pairs(pairs):
 
 def get_country_data_for(formatted_coordinate_pairs):
     '''
-    TODO: cache
     make call to googlemaps api using formatted coordinates and return array of array of dicts
     '''
     maps_api_url = 'http://maps.googleapis.com/maps/api/geocode/json'
     location_urls = [maps_api_url + "?latlng=" + pair for pair in formatted_coordinate_pairs]
     responses = []
     for url in location_urls:
-        resp = requests.get(url)
-        if resp.status_code == 200:
-            responses.append(resp.json())
+        if db.get(url):
+            data = json.loads(db.get(url).decode('utf-8'))
+            status = db.get(url + 'status').decode('utf-8')
+        else:
+            resp = requests.get(url)
+            data = resp.json()
+            status = str(resp.status_code)
+            db.set(url, json.dumps(data))
+            db.set(url + 'status', status)
+            db.expire(url, 600000)
+            db.expire(url + 'status', 600000)
+        if status == '200':
+            responses.append(data)
     return [r.get('results') for r in responses if r.get('status') == 'OK']
 
 def get_country_names_from(country_data):
     '''
-    parses the array of results from the googlemaps api to return a list of countries (e.g. ['Libya', 'Ukraine', ...])
     TODO: refactor -- currently too complex
+    parses the array of results from the googlemaps api to return a list of countries (e.g. ['Libya', 'Ukraine', ...])
     '''
     return [next(first(item.get('address_components', {})).get('long_name') for item in r if 'country' in item.get('types')) for r in country_data]
 
