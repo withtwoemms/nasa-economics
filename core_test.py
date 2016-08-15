@@ -40,7 +40,7 @@ class CoreTests(unittest.TestCase):
     def test_get_meteorite_landing_coordinates_in(self, mock_get):
         mock_get.return_value = self.nasa_data
         self.assertEqual(
-            get_meteorite_landing_coordinates_in(2008),
+            get_meteorite_landing_coordinates_in(2008)[0:10],
             self.test_coordinates
         )
 
