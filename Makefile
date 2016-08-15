@@ -1,6 +1,6 @@
 PYTHON := python3
 APP_FILE := meteor.py
-TEST_FILE := meteor_test.py
+TEST_FILES := $(shell ls *_test.py)
 VENV := $(CURDIR)/venv
 
 
@@ -16,7 +16,8 @@ all:
 test:
 	$(eval export FLASK_APP_ENV=test)
 	@echo "CURRENT_ENV -->" ${FLASK_APP_ENV}
-	$(PYTHON) $(TEST_FILE)
+	@echo "TEST FILES -->" ${TEST_FILES}
+	for file in $(TEST_FILES); do $(PYTHON) $$file; done
 
 dev:
 	$(eval export FLASK_APP_ENV=dev)
