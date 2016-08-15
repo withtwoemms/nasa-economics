@@ -129,6 +129,7 @@ def get_journal_article_indicator_data_for_multiple(country_names, year):
     '''
     returns a list of dictionaries with the country name and the number of articles for said country as entries
     '''
+    country_names = [c for c in country_names if c != None]
     result = []
     for country in set(country_names):
         resp = get_journal_article_indicator_data_for(country, year)
