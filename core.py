@@ -30,12 +30,13 @@ def get_meteorite_landing_coordinates_in(year):
     uses the Socrata client to get an array of arrays (e.g. [[32.41275, 20.74575], ...])
     where each is the coordinates of a meteorite landing in a given year
     '''
-    if db.get('meteorite_landings_in'):
-        result = json.loads(db.get('meteorite_landings_in').decode('utf-8'))
+    redis_key = 'meteorite_landings_in' + str(year)
+    if db.get(redis_key):
+        result = json.loads(db.get(redis_key).decode('utf-8'))
     else:
         result = client.get('y77d-th95', where="year='{}'".format(year))
-        db.set('meteorite_landings_in', json.dumps(result))
-        db.expire('meteorite_landings_in', 600000)
+        db.set(redis_key, json.dumps(result))
+        db.expire(redis_key, 600000)
     coords = [item.get('geolocation', {}).get('coordinates', None) for item in result]
     return [pair for pair in coords if pair not in [[0,0], None]]
 
