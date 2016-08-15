@@ -19,7 +19,7 @@ test:
 	@echo "TEST FILES -->" ${TEST_FILES}
 	for file in $(TEST_FILES); do $(PYTHON) $$file; done
 
-dev:
+shell:
 	$(eval export FLASK_APP_ENV=dev)
 	@echo "CURRENT_ENV -->" ${FLASK_APP_ENV}
 	$(PYTHON)
