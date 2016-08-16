@@ -12,6 +12,6 @@ server {
 
     location @meteor {
         include uwsgi_params;
-        uwsgi_pass unix:/var/www/run/meteor.sock;
+        uwsgi_pass unix:/var/www/run/nasanomics.sock;
    }
 }
