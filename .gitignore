@@ -3,6 +3,7 @@
 .env-dev
 dump.rdb
 packer_cache/
+.vagrant/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
