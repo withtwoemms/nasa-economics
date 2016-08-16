@@ -2,10 +2,10 @@ import json
 import os
 
 from flask import Flask
-from settings import configs
-from core import get_countries_with_meteorite_landings_in
-from core import get_journal_article_indicator_data_for_multiple
-from core import questions
+from app.settings import configs
+from app.core import get_countries_with_meteorite_landings_in
+from app.core import get_journal_article_indicator_data_for_multiple
+from app.core import questions
 
 
 app = Flask(__name__)

@@ -1,6 +1,6 @@
 PYTHON := python3
-APP_FILE := meteor.py
-TEST_FILES := $(shell ls *_test.py)
+APP_FILE := app/meteor.py
+TEST_FILES := $(shell ls test/*_test.py)
 VENV := $(CURDIR)/venv
 
 

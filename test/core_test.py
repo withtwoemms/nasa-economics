@@ -1,9 +1,9 @@
 import mock
 import unittest
 
-from copy import deepcopy
+from app.core import *
 from core_test_mocks import core_mock_data
-from core import *
+from copy import deepcopy
 
 
 class CoreTests(unittest.TestCase):
@@ -36,7 +36,7 @@ class CoreTests(unittest.TestCase):
             '32.41275,20.74575'
         )
 
-    @mock.patch('core.Socrata.get')
+    @mock.patch('app.core.Socrata.get')
     def test_get_meteorite_landing_coordinates_in(self, mock_get):
         mock_get.return_value = self.nasa_data
         self.assertEqual(
@@ -44,7 +44,7 @@ class CoreTests(unittest.TestCase):
             self.test_coordinates
         )
 
-    @mock.patch('core.requests.get')
+    @mock.patch('app.core.requests.get')
     def test_get_country_data_for(self, mock_get):
         mock_get.return_value = self._stub_response_with(self.googlemaps_datum_archetype)
         self.assertCountEqual(
@@ -52,7 +52,7 @@ class CoreTests(unittest.TestCase):
             ['place_id', 'geometry', 'formatted_address', 'address_components', 'types']
         )
 
-    @mock.patch('core.requests.get')
+    @mock.patch('app.core.requests.get')
     def test_get_country_names_from(self, mock_get):
         mock_get.return_value = self._stub_response_with(self.googlemaps_datum_archetype)
         country_datum = get_country_data_for(self.formatted_coordinate)
@@ -61,12 +61,12 @@ class CoreTests(unittest.TestCase):
             ['Libya']
         )
 
-    @mock.patch('core.requests.get')
+    @mock.patch('app.core.requests.get')
     def test_get_country_id(self, mock_get):
         mock_get.return_value = self._stub_response_with(self.worldbank_countries_datum_archetype)
         self.assertEqual(get_country_id('Libya'), 'LBY')
 
-    @mock.patch('core.requests.get')
+    @mock.patch('app.core.requests.get')
     def test_get_journal_article_indicator_data_for(self, mock_get):
         mock_get.return_value = self._stub_response_with(self.worldbank_article_datum_archetype)
         self.assertCountEqual(
@@ -74,7 +74,7 @@ class CoreTests(unittest.TestCase):
             ['value', 'decimal', 'date', 'country', 'indicator']
         )
 
-    @mock.patch('core.requests.get')
+    @mock.patch('app.core.requests.get')
     def test_get_journal_article_indicator_data_for_multiple(self, mock_get):
         mock_get.return_value = self._stub_response_with(self.worldbank_article_datum_archetype)
         self.assertCountEqual(

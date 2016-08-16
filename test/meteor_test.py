@@ -1,5 +1,7 @@
-import meteor
+import app.meteor as meteor
 import unittest
+
+from app.settings import configs
 
 
 class MeteorAppTests(unittest.TestCase):
