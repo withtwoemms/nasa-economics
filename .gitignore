@@ -2,6 +2,7 @@
 .env
 .env-dev
 dump.rdb
+packer_cache/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
