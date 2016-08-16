@@ -1,5 +1,5 @@
 PYTHON := python3
-APP_FILE := app/meteor.py
+APP_FILE := app/nasanomics.py
 TEST_FILES := $(shell ls test/*_test.py)
 VENV := $(CURDIR)/venv
 

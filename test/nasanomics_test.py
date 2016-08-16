@@ -1,14 +1,14 @@
-import app.meteor as meteor
+import app.nasanomics as nasanomics
 import unittest
 
 from app.settings import configs
 
 
-class MeteorAppTests(unittest.TestCase):
+class nasanomicsAppTests(unittest.TestCase):
 
     def setUp(self):
-        self.app = meteor.app.test_client()
-        meteor.app.config['TESTING'] = True
+        self.app = nasanomics.app.test_client()
+        nasanomics.app.config['TESTING'] = True
 
     def test_index_route(self):
         assert self.app.get('/')._status_code == 200
