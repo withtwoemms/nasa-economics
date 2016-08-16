@@ -4,6 +4,7 @@ TEST_FILES := $(shell ls test/*_test.py)
 VENV := $(CURDIR)/venv
 
 
+$(eval export PYTHONPATH=${PYTHONPATH}:./)
 $(eval export FLASK_APP=$(APP_FILE))
 $(foreach envvar, \
      $(shell cat $(CURDIR)/.env), \
