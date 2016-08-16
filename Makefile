@@ -38,7 +38,7 @@ venv:
 	virtualenv -p python3 $(VENV)
 
 install: requirements.txt $(VENV)
-	pip3 install -r requirements.txt
+	pip install -r requirements.txt
 	
 
 .PHONY: all test

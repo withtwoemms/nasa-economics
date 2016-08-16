@@ -10,14 +10,15 @@ cd /vagrant
 git clone https://github.com/withtwoemms/nasanonomics.git
 rsync -av \
     --exclude='/vagrant/nasanomics/vps/packer' \
+    --exclude='/vagrant/nasanomics/vps/vagrant' \
     --include='/vagrant/nasanomics/.env' \
     /vagrant/nasanomics/ /var/www/nasanomics 
 
 # Setup dependencies
 cd /var/www/nasanomics
-make venv
+sudo make venv
 source /var/www/nasanomics/venv/bin/activate
-make install
+sudo make install
 
 # UWSGI Setup
 apt-get -y install uwsgi uwsgi-plugin-python
