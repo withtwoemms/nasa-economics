@@ -1,35 +1,7 @@
-#echo 'deb http://ftp.debian.org/debian sid main' | sudo tee -a /etc/apt/sources.list
-
-#sudo touch /etc/apt/preferences.d/pinning
-#cat << EOF | sudo tee -a /etc/apt/preferences.d/pinning
-#Package: *
-#Pin: release a=stable
-#Pin-Priority: 700
- 
-#Package: *
-#Pin: release a=testing
-#Pin-Priority: 650
- 
-#Package: *
-#Pin: release a=unstable
-#Pin-Priority: 600
-#EOF
-
-#cd opt
-#wget https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tgz
-#tar xzf Python-3.4.3.tgz
-
-#cd Python-3.4.3
-#./configure
-#make
-#sudo make install
-
-#sudo add-apt-repository ppa:fkrull/deadsnakes
 sudo apt-get -y update
-
-#Flask Setup
 sudo apt-get -y install python3.4-dev python-virtualenv git libevent-dev
-pip install --upgrade distribute
+
+# Import app
 mkdir /var/www
 mkdir /var/www/nasanomics
 
