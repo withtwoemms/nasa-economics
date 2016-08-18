@@ -7,7 +7,7 @@ server {
     error_log  /var/log/nginx/error.log;
 
     location / {
-        try_files $uri @meteor;
+        try_files $uri @nasanomics;
     }
 
     location @meteor {
