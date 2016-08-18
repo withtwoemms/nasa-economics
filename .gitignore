@@ -4,6 +4,7 @@
 dump.rdb
 packer_cache/
 .vagrant/
+vps/vagrant/nasanomics
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
