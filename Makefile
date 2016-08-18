@@ -1,4 +1,5 @@
 PYTHON := python3
+APP_NAME := nasanomics
 APP_FILE := app/nasanomics.py
 TEST_FILES := $(shell ls test/*_test.py)
 VENV := $(CURDIR)/venv
@@ -33,12 +34,20 @@ dev-server:
 clean:
 	rm -rf $(VENV)
 	find . -iname '*.pyc' -exec rm {} \;
+	rm -rf ./vps/vagrant/nasanomics
 
 venv: 
 	virtualenv -p python3 $(VENV)
 
 install: requirements.txt $(VENV)
 	pip install -r requirements.txt
+
+dev-deploy:
+	mkdir ./vps/vagrant/$(APP_NAME)
+	git clone https://github.com/withtwoemms/$(APP_NAME).git ./vps/vagrant/$(APP_NAME)
+	cp ./.env ./vps/vagrant/$(APP_NAME)
+	vagrant up
+
 	
 
 .PHONY: all test
