@@ -41,7 +41,7 @@ venv:
 	virtualenv -p python3 $(VENV)
 
 install: requirements.txt $(VENV)
-	pip install -r requirements.txt
+	pip3 install -r requirements.txt
 
 dev-deploy:
 	mkdir ./vps/vagrant/$(APP_NAME)
