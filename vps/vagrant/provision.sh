@@ -17,8 +17,7 @@ source /var/www/nasanomics/venv/bin/activate
 sudo make install
 
 # UWSGI Setup
-sudo apt-get -y install uwsgi
-sudo pip install uwsgi
+sudo apt-get -y install uwsgi uwsgi-plugin-python3
 mkdir /var/www/run
 chown www-data:www-data /var/www/run
 touch /var/log/uwsgi/emperor.log
