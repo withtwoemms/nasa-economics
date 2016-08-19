@@ -35,6 +35,7 @@ clean:
 	rm -rf $(VENV)
 	find . -iname '*.pyc' -exec rm {} \;
 	rm -rf ./vps/vagrant/nasanomics
+	vagrant destroy -f
 
 venv: 
 	virtualenv -p python3 $(VENV)
