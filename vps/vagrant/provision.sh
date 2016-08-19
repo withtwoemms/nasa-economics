@@ -1,5 +1,5 @@
 sudo apt-get -y update
-sudo apt-get -y install python3.4-dev python-virtualenv git libevent-dev
+sudo apt-get -y install python3.4-dev python3.4-pip python-virtualenv git libevent-dev
 
 # Import app
 mkdir /var/www
@@ -35,5 +35,5 @@ cp /vagrant/nginx_config /etc/nginx/sites-available/
 ln -s /etc/nginx/sites-available/nginx_config /etc/nginx/sites-enabled
 
 # Start UWSGI and NGINX
-service nginx restart
-service uwsgi restart
+sudo /etc/init.d/nginx restart
+sudo /etc/init.d/uwsgi restart
