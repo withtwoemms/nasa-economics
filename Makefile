@@ -51,5 +51,5 @@ dev-deploy:
 
 	
 
-.PHONY: all test
+.PHONY: all test venv
 

@@ -1,5 +1,5 @@
 sudo apt-get -y update
-sudo apt-get -y install python3.4-dev python3-pip virtualenv git libevent-dev
+sudo apt-get -y install python3.4-dev python3-pip python-pip python3-virtualenv virtualenv git libevent-dev
 
 # Import app
 mkdir /var/www
