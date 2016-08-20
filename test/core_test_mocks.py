@@ -195,5 +195,37 @@ core_mock_data = {
             }
         ]
     ],
-    u'worldbank_num_articles_datum_archetype': [{'country': u'Libya', 'num_articles': 139.7}]
+    u'worldbank_num_articles_datum_archetype': [{'country': u'Libya', 'num_articles': 139.7}],
+    u'meteorite_countries_with_num_articles': [
+        {
+            u'num_articles': 140,
+            u'country': "Libya"
+        }
+    ],
+    u'countries_with_meteorite_landings': [
+        "Libya",
+        "Antarctica",
+        "Saudi Arabia",
+        "Saudi Arabia",
+        "Svalbard and Jan Mayen",
+        "Tanzania",
+        "Ukraine",
+        "Sudan",
+        "Sudan",
+        "South Sudan",
+        "South Sudan",
+        "South Sudan",
+        "Poland",
+        "Poland",
+        "Poland",
+        "Poland",
+        "South Sudan",
+        "Tanzania",
+        "Latvia",
+        "Latvia",
+        "Antarctica",
+        "Antarctica",
+        "Ukraine",
+        "Ukraine",
+    ]
 }
