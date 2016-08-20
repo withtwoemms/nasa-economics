@@ -23,10 +23,10 @@ class CoreTests(unittest.TestCase):
             self.nasa_data.append(nasa_datum)
 
 #-- PRIVATE ------------------------>>>
-    def _stub_response_with(self, stub):
+    def _stub_response_with(self, stub, status):
         mock_resp = mock.Mock()
         mock_resp.json.return_value = stub
-        mock_resp.status_code = 200
+        mock_resp.status_code = status
         return mock_resp
 #----------------------------------->>>
 
@@ -46,7 +46,7 @@ class CoreTests(unittest.TestCase):
 
     @mock.patch('app.core.requests.get')
     def test_get_country_data_for(self, mock_get):
-        mock_get.return_value = self._stub_response_with(self.googlemaps_datum_archetype)
+        mock_get.return_value = self._stub_response_with(self.googlemaps_datum_archetype, 200)
         self.assertCountEqual(
             get_country_data_for(self.formatted_coordinate)[0][0].keys(),
             ['place_id', 'geometry', 'formatted_address', 'address_components', 'types']
@@ -54,7 +54,7 @@ class CoreTests(unittest.TestCase):
 
     @mock.patch('app.core.requests.get')
     def test_get_country_names_from(self, mock_get):
-        mock_get.return_value = self._stub_response_with(self.googlemaps_datum_archetype)
+        mock_get.return_value = self._stub_response_with(self.googlemaps_datum_archetype, 200)
         country_datum = get_country_data_for(self.formatted_coordinate)
         self.assertEqual(
             get_country_names_from(country_datum),
@@ -63,12 +63,12 @@ class CoreTests(unittest.TestCase):
 
     @mock.patch('app.core.requests.get')
     def test_get_country_id(self, mock_get):
-        mock_get.return_value = self._stub_response_with(self.worldbank_countries_datum_archetype)
+        mock_get.return_value = self._stub_response_with(self.worldbank_countries_datum_archetype, 200)
         self.assertEqual(get_country_id('Libya'), 'LBY')
 
     @mock.patch('app.core.requests.get')
     def test_get_journal_article_indicator_data_for(self, mock_get):
-        mock_get.return_value = self._stub_response_with(self.worldbank_article_datum_archetype)
+        mock_get.return_value = self._stub_response_with(self.worldbank_article_datum_archetype, 200)
         self.assertCountEqual(
             get_journal_article_indicator_data_for('Libya', 2008)[-1][0],
             ['value', 'decimal', 'date', 'country', 'indicator']
@@ -76,7 +76,7 @@ class CoreTests(unittest.TestCase):
 
     @mock.patch('app.core.requests.get')
     def test_get_journal_article_indicator_data_for_multiple(self, mock_get):
-        mock_get.return_value = self._stub_response_with(self.worldbank_article_datum_archetype)
+        mock_get.return_value = self._stub_response_with(self.worldbank_article_datum_archetype, 200)
         result = get_journal_article_indicator_data_for_multiple(['Libya'], 2008)
         result_keys = [key for pair in result for key in pair]  # flatten list of keys
         self.assertCountEqual(
