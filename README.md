@@ -1,4 +1,4 @@
-# nasa-economics
+# nasanomics
 code challenge for integrating data from two different APIs
 
 ---
@@ -22,8 +22,10 @@ code challenge for integrating data from two different APIs
 * run `make venv` (to create the virtualenv)
 * activate the virtual env (e.g. `source venv/bin/activate`)
 * run `make install`
-* run `make dev-server`
+* run `make dev-server` to demo on your machine
     - be sure you have a redis instance up and running (e.g. `$ redis-server`)
     - `make shell` to sandbox ideas
     - travelling to the `/questions` endpoint will show all questions
     - travelling to the `/answers/<year>` will show pertinent data
+* run `make dev-deploy` to demo on a debian/jessie64 box
+    - go to `localhost:8080` to access the app
