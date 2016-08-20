@@ -1,16 +1,19 @@
+# Setup Python3, etc.
 sudo apt-get -y update
-sudo apt-get -y install python3.4-dev python3-pip python-pip python3-virtualenv virtualenv git libevent-dev
+sudo apt-get -y install python3.4-dev python3-pip virtualenv git libevent-dev
+sudo echo "alias python=\"python3\"" >> ~vagrant/.bashrc
+source ~vagrant/.bashrc
 
 # Import app
 mkdir /var/www
 mkdir /var/www/nasanomics
-
+export PYTHONPATH=/var/www/nasanomics
 /bin/bash -c "rsync -av \
     --exclude='/vagrant/nasanomics/vps/packer' \
     --exclude='/vagrant/nasanomics/vps/vagrant' \
     /vagrant/nasanomics/ /var/www/nasanomics"
 
-# Setup dependencies
+# Setup virtualenv
 cd /var/www/nasanomics
 sudo make venv
 source /var/www/nasanomics/venv/bin/activate
