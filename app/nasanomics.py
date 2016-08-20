@@ -32,7 +32,7 @@ def get_answer(year):
     return json.dumps(sorted(data, key=lambda x: x['num_articles'], reverse=True)[0:5])
 
 @app.route('/countries-with-meteorite-landings-in/<int:year>')
-def meterorite_landings(year):
+def meteorite_landings(year):
     return json.dumps(get_countries_with_meteorite_landings_in(year))
 #----------------------------------->>>
 
