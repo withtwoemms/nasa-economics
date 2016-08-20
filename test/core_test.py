@@ -77,9 +77,10 @@ class CoreTests(unittest.TestCase):
     @mock.patch('app.core.requests.get')
     def test_get_journal_article_indicator_data_for_multiple(self, mock_get):
         mock_get.return_value = self._stub_response_with(self.worldbank_article_datum_archetype)
+        result = get_journal_article_indicator_data_for_multiple(['Libya'], 2008)
+        result_keys = [key for pair in result for key in pair]  # flatten list of keys
         self.assertCountEqual(
-            get_journal_article_indicator_data_for_multiple(['Libya'], 2008)[0].keys(),
-            ['country', 'num_articles']
+            set(result_keys), ['country', 'num_articles']
         )
 
 
