@@ -13,7 +13,7 @@ code challenge for integrating data from two different APIs
 > Q: How many records are in the dataset? 
 > A: 45,716
 
-* ignore irrelevant data
+* ignoring irrelevant data is okay (for now..)
 * use Python 3 and any libraries you feel are of use
 
 ---
@@ -28,4 +28,7 @@ code challenge for integrating data from two different APIs
     - travelling to the `/questions` endpoint will show all questions
     - travelling to the `/answers/<year>` will show pertinent data
 * run `make dev-deploy` to demo on a debian/jessie64 box
+    - nginx fields http requests and forwards them to a uwsgi app server hosting a Flask app
     - go to `localhost:8080` to access the app
+    - `make clean` gets rid of everything
+    - `vagrant ssh` to poke around the VPS, but you shouldn't need to :)
