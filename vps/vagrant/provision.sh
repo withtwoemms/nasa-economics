@@ -37,6 +37,8 @@ rm /etc/nginx/sites-enabled/default
 cp /vagrant/nginx_config /etc/nginx/sites-available/
 ln -s /etc/nginx/sites-available/nginx_config /etc/nginx/sites-enabled
 
-# Start UWSGI and NGINX
+# Start UWSGI, NGINX, and Redis
+sudo apt-get -y install redis-server
 sudo /etc/init.d/nginx restart
 sudo /etc/init.d/uwsgi restart
+sudo /etc/init.d/redis-server restart
