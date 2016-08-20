@@ -48,8 +48,6 @@ dev-deploy:
 	git clone https://github.com/withtwoemms/$(APP_NAME).git ./vps/vagrant/$(APP_NAME)
 	cp ./.env ./vps/vagrant/$(APP_NAME)
 	vagrant up
-
 	
 
 .PHONY: all test venv
-
