@@ -8,6 +8,7 @@ from first import first
 
 #-- CONFIG ------------------------->>>
 nasa_app_token = os.environ.get('NASA_APP_TOKEN', '')
+env = os.environ.get('FLASK_APP_ENV')
 db = redis.StrictRedis(
     host='localhost',
     port='6379',
@@ -29,7 +30,7 @@ def get_meteorite_landing_coordinates_in(year):
     where each is the coordinates of a meteorite landing in a given year
     '''
     redis_key = 'meteorite_landings_in' + str(year)
-    if db.get(redis_key):
+    if db.get(redis_key) and env != 'test':
         result = json.loads(db.get(redis_key).decode('utf-8'))
     else:
         url = 'https://data.nasa.gov/resource/y77d-th95.json'
@@ -60,7 +61,7 @@ def get_country_data_for(formatted_coordinate_pairs):
     location_urls = [maps_api_url + "?latlng=" + pair for pair in formatted_coordinate_pairs]
     responses = []
     for url in location_urls:
-        if db.get(url):
+        if db.get(url) and env != 'test':
             data = json.loads(db.get(url).decode('utf-8'))
             status = db.get(url + 'status').decode('utf-8')
         else:
@@ -94,7 +95,7 @@ def get_country_id(country_name):
     '''
     calls out to the worldbank api to get a list of dictionaries and returns the cid if the country dict is in the list
     '''
-    if db.get('all_countries'):
+    if db.get('all_countries') and env != 'test':
         resp = json.loads(db.get('all_countries').decode('utf-8'))
     else:
         resp = requests.get('http://api.worldbank.org/countries/all/?per_page=1000&format=json').json()
@@ -118,7 +119,7 @@ def get_journal_article_indicator_data_for(country_name, year):
     query = '?per_page=1000&format=json&date={}'.format(year)
     path = '/indicators/IP.JRN.ARTC.SC{}'.format(query)
     redis_key = country_name + str(year)
-    if db.get(redis_key):
+    if db.get(redis_key) and env != 'test':
         resp = json.loads(db.get(redis_key).decode('utf-8'))
     else:
         resp = requests.get(base_url + path).json()
