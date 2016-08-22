@@ -33,9 +33,9 @@ def get_meteorite_landing_coordinates_in(year):
         result = json.loads(db.get(redis_key).decode('utf-8'))
     else:
         url = 'https://data.nasa.gov/resource/y77d-th95.json'
-        query = '?$$api_key={}&year={}-01-01T00:00:00.000'.format(nasa_app_token, str(year))
+        query = '?$$app_token={}&year={}-01-01T00:00:00.000'.format(nasa_app_token, str(year))
         result = requests.get(url + query).json()
-        db.set(redis_key, json.dumps(result))
+        db.set(redis_key, result)
         db.expire(redis_key, 600000)
     coords = [item.get('geolocation', {}).get('coordinates', None) for item in result]
     return [pair for pair in coords if pair not in [[0,0], None]]

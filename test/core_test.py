@@ -38,7 +38,7 @@ class CoreTests(unittest.TestCase):
 
     @mock.patch('app.core.requests.get')
     def test_get_meteorite_landing_coordinates_in(self, mock_get):
-        mock_get.return_value = self.nasa_data
+        mock_get.return_value = self._stub_response_with(self.nasa_data, 200)
         self.assertEqual(
             get_meteorite_landing_coordinates_in(2008)[0:10],
             self.test_coordinates
