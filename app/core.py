@@ -4,12 +4,10 @@ import redis
 import requests
 
 from first import first
-from sodapy import Socrata
 
 
 #-- CONFIG ------------------------->>>
-nasa_app_token = os.environ.get('NASA_APP_TOKEN', None)
-client = Socrata('data.nasa.gov', nasa_app_token)
+nasa_app_token = os.environ.get('NASA_APP_TOKEN', '')
 db = redis.StrictRedis(
     host='localhost',
     port='6379',
@@ -34,7 +32,9 @@ def get_meteorite_landing_coordinates_in(year):
     if db.get(redis_key):
         result = json.loads(db.get(redis_key).decode('utf-8'))
     else:
-        result = client.get('y77d-th95', where="year='{}'".format(year))
+        url = 'https://data.nasa.gov/resource/y77d-th95.json'
+        query = '?$$api_key={}&year={}-01-01T00:00:00.000'.format(nasa_app_token, str(year))
+        result = requests.get(url + query).json()
         db.set(redis_key, json.dumps(result))
         db.expire(redis_key, 600000)
     coords = [item.get('geolocation', {}).get('coordinates', None) for item in result]

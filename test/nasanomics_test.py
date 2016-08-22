@@ -32,7 +32,7 @@ class NasanomicsAppTests(unittest.TestCase):
         mock_journal_article_data.return_value = core_mock_data.get('meteorite_countries_with_num_articles')
         self.assertEqual(json.loads(get_answer(self.test_year)).__class__.__name__, 'list')
 
-    @mock.patch('app.nasanomics.meteorite_landings')
+    @mock.patch('app.nasanomics.get_countries_with_meteorite_landings_in')
     def test_meteorite_landings(self, mock_landings):
         mock_landings.return_value = core_mock_data.get('countries_with_meteorite_landings')
         self.assertEqual(
