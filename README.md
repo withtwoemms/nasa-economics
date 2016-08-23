@@ -23,6 +23,9 @@ code challenge for integrating data from two different APIs
 * activate the virtual env (e.g. `source venv/bin/activate`)
 * run `make install`
 * run `make dev-server` to demo on your machine
+    - if you have any secrets, put them in a `.env` file at the project root like so:
+        - `NASA_APP_TOKEN=thisisanapptoken...`
+        - `NASA_SECRET_TOKEN=thisisasecret...`
     - be sure you have a redis instance up and running (e.g. `$ redis-server`)
     - `make shell` to sandbox ideas
     - travelling to the `/questions` endpoint will show all questions
