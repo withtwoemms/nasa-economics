@@ -2,12 +2,14 @@ import json
 import os
 import redis
 import requests
+import grequests
 
 from first import first
 
 
 #-- CONFIG ------------------------->>>
 nasa_app_token = os.environ.get('NASA_APP_TOKEN', '')
+google_maps_key = os.environ.get('GOOGLE_MAPS_KEY', '')
 env = os.environ.get('FLASK_APP_ENV')
 db = redis.StrictRedis(
     host='localhost',
@@ -29,7 +31,7 @@ def get_meteorite_landing_coordinates_in(year):
     uses the Socrata client to get an array of arrays (e.g. [[32.41275, 20.74575], ...])
     where each is the coordinates of a meteorite landing in a given year
     '''
-    redis_key = 'meteorite_landings_in' + str(year)
+    redis_key = "meteorite_landings_in" + str(year)
     if db.get(redis_key) and env != 'test':
         result = json.loads(db.get(redis_key).decode('utf-8'))
     else:
@@ -53,10 +55,16 @@ def format_coordinate_pairs(pairs):
     '''
     return [format_coordinate_pair(pair) for pair in pairs]
 
-def get_country_data_for(formatted_coordinate_pairs):
+def build_google_map_urls(formatted_coordinate_pairs):
+    maps_api = 'http://maps.googleapis.com/maps/api/geocode/json?key={}&latlng='.format(google_maps_key)
+    return [maps_api + coord_pair for coord_pair in formatted_coordinate_pairs]
+
+def get_country_data_for(map_api_urls):
     '''
+    TODO: cache in redis by SOME OTHER KEY!!! Coordinates are iffy...
     make call to googlemaps api using formatted coordinates and return array of array of dicts
     '''
+    ''' OLD STYLE ===>
     maps_api_url = 'http://maps.googleapis.com/maps/api/geocode/json'
     location_urls = [maps_api_url + "?latlng=" + pair for pair in formatted_coordinate_pairs]
     responses = []
@@ -75,6 +83,28 @@ def get_country_data_for(formatted_coordinate_pairs):
         if status == '200':
             responses.append(data)
     return [r.get('results') for r in responses if r.get('status') == 'OK']
+    '''
+    unsent_requests = (grequests.get(u) for u in map_api_urls)
+    responses = grequests.map(unsent_requests) # there should be some GOODIES in the these responses
+    '''
+    Here, I can map responses to some "cacheable" datastructure...
+    '''
+    coords_dict = {}
+    [coords_dict.update({r.url.split('latlng=')[-1]: r.json()}) for r in responses]
+    responses = []
+    for coord, resp in coords_dict.items():
+        '''
+        GET resp from Redis if set and SET in Redis if not set...
+        '''
+        if db.get(coord) and env != 'test':
+            data = json.loads(db.get(coord).decode('utf-8'))
+        else:
+            data = resp
+            db.set(coord, json.dumps(resp))
+            db.expire(url, 600000)
+        responses.append(data)
+    return [r.get('results') for r in responses if r.get('status') == 'OK']
+
 
 def get_country_names_from(country_data):
     '''
